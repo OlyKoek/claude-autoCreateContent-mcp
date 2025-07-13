@@ -2,6 +2,9 @@
 ### セットアップ
 
 ```bash
+# init
+npm init -y
+
 # 実行時依存
 npm install axios dotenv @modelcontextprotocol/sdk-typescript
 
@@ -47,4 +50,9 @@ nano src/types/index.ts
 ### build
 ```typescript
 npx tsc
+```
+
+### local test
+```bash
+node dist/server.js
 ```
