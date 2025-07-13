@@ -43,6 +43,8 @@ export default {
 nano src/types/index.ts
 ```
 
-```typescript
 
+### build
+```typescript
+npx tsc
 ```
