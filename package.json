@@ -1,0 +1,27 @@
+{
+  "name": "claude-autocreatecontent-mcp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlyKoek/claude-autoCreateContent-mcp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OlyKoek/claude-autoCreateContent-mcp/issues"
+  },
+  "homepage": "https://github.com/OlyKoek/claude-autoCreateContent-mcp#readme",
+  "description": "",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.1",
+    "@types/node": "^24.0.13",
+    "axios": "^1.10.0",
+    "form-data": "^4.0.3",
+    "typescript": "^5.8.3"
+  }
+}
