@@ -20,3 +20,29 @@ npm install --save-dev typescript ts-node @types/node
 ```bash
 npx tsc --init --rootDir src --outDir dist --esModuleInterop true --resolveJsonModule true
 ```
+
+
+### 認証設定
+```bash
+nano src/config/credentials.ts
+```
+
+```typescript
+import dotenv from 'dotenv';
+dotenv.config();
+
+export default {
+  qiita: {
+    accessToken: process.env.QIITA_TOKEN || '',
+  },
+};
+```
+
+### 型定義
+```bash
+nano src/types/index.ts
+```
+
+```typescript
+
+```
