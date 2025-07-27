@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
 import { createDraftArticle } from "./tools/qiita";
+import { z } from "zod";
+
+const MCPRequestSchema = z.object({
+  jsonrpc: z.literal("2.0"),
+  id: z.union([z.string(), z.number()]).nullable().optional(),
+  method: z.string(),
+  params: z.optional(z.any())
+}).passthrough();
 
 interface MCPRequest {
   jsonrpc: string;
@@ -11,7 +19,7 @@ interface MCPRequest {
 
 interface MCPResponse {
   jsonrpc: string;
-  id: number | string;
+  id: number | string | null;
   result?: any;
   error?: {
     code: number;
@@ -23,6 +31,33 @@ interface MCPResponse {
 // Simple MCP Server implementation
 class SimpleMCPServer {
   async handleRequest(request: MCPRequest): Promise<MCPResponse> {
+
+    try {
+      MCPRequestSchema.parse(request);
+    } catch (zodError) {
+      return {
+        jsonrpc: "2.0",
+        id: request?.id ?? null,
+        error: {
+          code: -32600,
+          message: "Invalid Request Format",
+          data: zodError,
+        },
+      };
+    }
+
+    // リクエストの基本的な検証
+    if (!request.jsonrpc || !request.method) {
+      return {
+        jsonrpc: "2.0",
+        id: request.id || null,
+        error: {
+          code: -32600,
+          message: "Invalid Request: jsonrpc and method are required"
+        }
+      };
+    }
+
     try {
       switch (request.method) {
         case "initialize": // Response for initialization
@@ -110,7 +145,7 @@ class SimpleMCPServer {
       const errorMessage = error instanceof Error ? error.message : String(error);
       return {
         jsonrpc: "2.0",
-        id: request.id,
+        id: request.id || null,
         error: {
           code: -32000,
           message: errorMessage
@@ -141,17 +176,27 @@ class SimpleMCPServer {
           try {
             const request: MCPRequest = JSON.parse(line);
             // デバッグ: 受信したリクエストをログ出力
-            process.stderr.write(`受信リクエスト: ${JSON.stringify(request, null, 2)}\n`);
+            process.stderr.write(`🔥 受信リクエスト: ${JSON.stringify(request, null, 2)}\n`);
             
             const response = await this.handleRequest(request);
             // デバッグ: 送信するレスポンスをログ出力
-            process.stderr.write(`送信レスポンス: ${JSON.stringify(response, null, 2)}\n`);
+            process.stderr.write(`📤 送信レスポンス: ${JSON.stringify(response, null, 2)}\n`);
             
             // MCPレスポンスは標準出力に出力（Claude Desktopが読み取る）
             process.stdout.write(JSON.stringify(response) + '\n');
-          } catch (error) {
-            // エラーログは標準エラー出力に
-            process.stderr.write(`Parse error: ${error}\n`);
+          } catch (parseError) {
+            // パースエラーの場合も適切なJSON-RPCエラーレスポンスを返す
+            const errorResponse = {
+              jsonrpc: "2.0",
+              id: null,
+              error: {
+                code: -32700,
+                message: `Parse error: ${parseError instanceof Error ? parseError.message : String(parseError)}`
+              }
+            };
+            
+            process.stderr.write(`❌ パースエラー: ${JSON.stringify(errorResponse, null, 2)}\n`);
+            process.stdout.write(JSON.stringify(errorResponse) + '\n');
           }
         }
       }
