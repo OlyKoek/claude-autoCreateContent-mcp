@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "qiita-mcp-server": {
+      "command": "node",
+      "args": ["./dist/server.js"],
+      "cwd": "D:\\00_GitWorkspace\\claude-autoCreateContent-mcp",
+      "env": {
+        "QIITA_ACCESS_TOKEN": "your_qiita_access_token_here"
+      }
+    }
+  }
+}
