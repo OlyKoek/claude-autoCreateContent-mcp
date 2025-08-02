@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { createDraftArticle } from "./tools/qiita";
+import { createDraftArticle } from "./tools/qiita.js";
 import { z } from "zod";
 
 const MCPRequestSchema = z.object({

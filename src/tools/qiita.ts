@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
-import { DraftArticleInput } from "../types";
-import credentials from "../config/credentials";
+import { DraftArticleInput } from "../types/index.js";
+import credentials from "../config/credentials.js";
 
 const API_BASE_URL = "https://qiita.com/api/v2";
 
