@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "qiita-mcp-server-uvx": {
+      "command": "uvx",
+      "args": ["@olykoek/qiita-mcp-server@0.1.0"],
+      "env": {
+        "QIITA_ACCESS_TOKEN": "your_qiita_access_token_here"
+      }
+    },
+    "qiita-mcp-server-npx": {
+      "command": "npx",
+      "args": ["@olykoek/qiita-mcp-server@0.1.0"],
+      "env": {
+        "QIITA_ACCESS_TOKEN": "your_qiita_access_token_here"
+      }
+    },
+    "qiita-mcp-server-local": {
+      "command": "node",
+      "args": ["./dist/server.js"],
+      "cwd": "D:\\00_GitWorkspace\\claude-autoCreateContent-mcp",
+      "env": {
+        "QIITA_ACCESS_TOKEN": "your_qiita_access_token_here"
+      }
+    }
+  }
+}
