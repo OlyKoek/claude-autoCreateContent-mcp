@@ -21,6 +21,13 @@
       "env": {
         "QIITA_ACCESS_TOKEN": "your_qiita_access_token_here"
       }
+    },
+    "qiita-mcp-server-npm": {
+      "command": "node",
+      "args": ["./node_modules/@olykoek/qiita-mcp-server"],
+      "env": {
+        "QIITA_ACCESS_TOKEN": "your_qiita_access_token_here"
+      }
     }
   }
 }
